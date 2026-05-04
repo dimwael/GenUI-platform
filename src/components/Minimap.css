@@ -1,0 +1,33 @@
+.minimap {
+  position: fixed;
+  bottom: 84px; /* stacked above the zoom controls (44 + 24 + 16 gap) */
+  right: 24px;
+  width: 180px;
+  height: 130px;
+  background: transparent;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+  z-index: 1000;
+  overflow: hidden;
+  cursor: crosshair;
+  transition: box-shadow 0.2s ease, border-color 0.2s ease;
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
+
+.minimap:hover {
+  border-color: rgba(0, 0, 0, 0.2);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+}
+
+.minimap.dark {
+  background: transparent;
+  border-color: rgba(255, 255, 255, 0.08);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+}
+
+.minimap.dark:hover {
+  border-color: rgba(255, 255, 255, 0.15);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.45);
+}

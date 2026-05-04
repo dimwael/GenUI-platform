@@ -1,0 +1,397 @@
+/* ─────────────────────────────────────────
+   BASE
+───────────────────────────────────────── */
+.bubble {
+  padding: 13px 17px;
+  margin: 8px 0;
+  border-radius: 18px;
+  max-width: 100%;
+  word-wrap: break-word;
+  cursor: text;
+  user-select: text;
+  line-height: 1.6;
+  font-size: 14px;
+  position: relative;
+  transition: box-shadow 0.3s ease, transform 0.2s ease, border-color 0.3s ease;
+}
+
+/* ─────────────────────────────────────────
+   LIGHT MODE
+───────────────────────────────────────── */
+.bubble.user {
+  background: linear-gradient(135deg, #6366f1, #8b5cf6);
+  color: white;
+  border-bottom-right-radius: 5px;
+  box-shadow: 0 3px 14px rgba(99, 102, 241, 0.35);
+  margin-left: auto;
+  max-width: 88%;
+  width: fit-content;
+  align-self: flex-end;
+}
+
+.bubble.user:hover {
+  box-shadow: 0 6px 22px rgba(99, 102, 241, 0.5);
+  transform: translateY(-1px);
+}
+
+.bubble.assistant {
+  background: #ffffff;
+  color: #1e1b4b;
+  border-bottom-left-radius: 5px;
+  border: 1.5px solid #e5e7eb;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  max-width: 88%;
+  width: fit-content;
+  align-self: flex-start;
+}
+
+.bubble.assistant:hover {
+  border-color: #c7d2fe;
+  box-shadow: 0 4px 16px rgba(99, 102, 241, 0.15);
+  transform: translateY(-1px);
+}
+
+/* ─────────────────────────────────────────
+   DARK — USER bubble (restrained indigo)
+───────────────────────────────────────── */
+.bubble.user.dark {
+  background: #4f46e5;
+  color: #ffffff;
+  font-weight: 500;
+  border: none;
+  border-bottom-right-radius: 5px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  text-shadow: none;
+}
+
+.bubble.user.dark:hover {
+  background: #4338ca;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.4);
+  transform: translateY(-1px);
+}
+
+/* ─────────────────────────────────────────
+   DARK — ASSISTANT bubble (subtle surface)
+───────────────────────────────────────── */
+.bubble.assistant.dark {
+  background: #1d2026;
+  color: #e4e6eb;
+  font-weight: 400;
+  border: 1px solid #2a2f37;
+  border-bottom-left-radius: 5px;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+  text-shadow: none;
+}
+
+.bubble.assistant.dark:hover {
+  border-color: #363b44;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  transform: translateY(-1px);
+}
+
+/* ─────────────────────────────────────────
+   HIGHLIGHT (branched text)
+───────────────────────────────────────── */
+.bubble .highlight {
+  color: white;
+  padding: 1px 5px;
+  border-radius: 4px;
+  font-weight: 700;
+}
+
+.bubble.dark .highlight {
+  box-shadow: none;
+  border-radius: 4px;
+}
+
+/* ─────────────────────────────────────────
+   CONTAINER
+───────────────────────────────────────── */
+.bubble-container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 2px;
+  width: 100%;
+}
+
+/* When the bubble is a user (right-aligned), the copy button below it
+   should also align right. When assistant (left-aligned), copy aligns left.
+   We handle this via the bubble's align-self; the container itself stays stretch. */
+.bubble-container > .bubble.user {
+  align-self: flex-end;
+}
+
+.bubble-container > .bubble.assistant {
+  align-self: flex-start;
+}
+
+/* ─────────────────────────────────────────
+   COPY BUTTON
+───────────────────────────────────────── */
+.copy-btn {
+  background: #f3f4f6;
+  border: 1px solid #e5e7eb;
+  border-radius: 7px;
+  padding: 4px 7px;
+  cursor: pointer;
+  font-size: 11px;
+  opacity: 0;
+  transition: all 0.2s;
+  margin-top: 2px;
+  align-self: flex-start;
+  color: #6b7280;
+}
+
+.bubble-container:hover .copy-btn { opacity: 1; }
+
+.copy-btn:hover {
+  background: #e5e7eb;
+  transform: scale(1.1);
+}
+
+.copy-btn.dark {
+  background: #23272e;
+  border-color: #2a2f37;
+  color: #8b909a;
+}
+
+.copy-btn.dark:hover {
+  background: #2a2f37;
+  border-color: #363b44;
+  color: #d4d7dd;
+  box-shadow: none;
+  transform: scale(1.1);
+}
+
+/* ─────────────────────────────────────────
+   MARKDOWN RENDERING
+───────────────────────────────────────── */
+
+/* Force the markdown output inside a bubble to stack vertically with a
+   consistent gap. This guards against any layout glitch from browser
+   defaults, React re-renders, or unusual response shapes. */
+.bubble > div,
+.bubble > *:not(.branch-chip) {
+  display: block;
+}
+
+.bubble .md-p {
+  display: block;
+  margin: 0 0 8px;
+}
+.bubble .md-p:last-child { margin-bottom: 0; }
+
+.bubble .md-h1, .bubble .md-h2, .bubble .md-h3 {
+  display: block;
+  margin: 10px 0 6px;
+  font-weight: 700;
+  line-height: 1.3;
+}
+.bubble .md-h1:first-child,
+.bubble .md-h2:first-child,
+.bubble .md-h3:first-child { margin-top: 0; }
+.bubble .md-h1 { font-size: 1.2em; }
+.bubble .md-h2 { font-size: 1.1em; }
+.bubble .md-h3 { font-size: 1em; }
+
+.bubble .md-ul, .bubble .md-ol {
+  margin: 4px 0 8px;
+  padding-left: 20px;
+}
+.bubble .md-li { margin: 2px 0; }
+
+.bubble .md-code-inline {
+  font-family: 'SF Mono', 'Fira Code', monospace;
+  font-size: 0.88em;
+  padding: 1px 5px;
+  border-radius: 4px;
+  background: rgba(0,0,0,0.12);
+}
+.bubble.dark .md-code-inline {
+  background: rgba(0,0,0,0.35);
+  color: #a5b4fc;
+}
+.bubble.user.dark .md-code-inline {
+  background: rgba(0,0,0,0.25);
+  color: #e0e7ff;
+}
+
+.bubble .md-pre {
+  margin: 8px 0;
+  border-radius: 8px;
+  overflow-x: auto;
+  background: rgba(0,0,0,0.1);
+  padding: 10px 14px;
+}
+.bubble .md-pre .md-code-block {
+  font-family: 'SF Mono', 'Fira Code', monospace;
+  font-size: 0.85em;
+  background: none;
+  padding: 0;
+  white-space: pre;
+}
+.bubble.dark .md-pre {
+  background: #0f1115;
+  border: 1px solid #23272e;
+}
+.bubble.dark .md-pre .md-code-block {
+  color: #d4d7dd;
+}
+
+.bubble .md-blockquote {
+  border-left: 3px solid rgba(255,255,255,0.4);
+  margin: 6px 0;
+  padding: 4px 12px;
+  opacity: 0.85;
+  font-style: italic;
+}
+.bubble.dark .md-blockquote {
+  border-left-color: #6366f1;
+}
+
+.bubble .md-link {
+  color: #c7d2fe;
+  text-decoration: underline;
+}
+.bubble.user .md-link { color: rgba(255,255,255,0.85); }
+.bubble.dark .md-link { color: #93c5fd; }
+
+.bubble .md-hr {
+  border: none;
+  border-top: 1px solid rgba(255,255,255,0.2);
+  margin: 8px 0;
+}
+.bubble.dark .md-hr {
+  border-top-color: #2a2f37;
+}
+
+/* ─────────────────────────────────────────
+   TABLES
+───────────────────────────────────────── */
+.md-table-wrap {
+  overflow-x: auto;
+  margin: 10px 0;
+  border-radius: 10px;
+  border: 1px solid rgba(0,0,0,0.1);
+}
+
+.bubble.dark .md-table-wrap,
+.md-table-wrap.dark {
+  border-color: #2a2f37;
+}
+
+.bubble.user.dark .md-table-wrap {
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.md-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.md-thead {
+  background: rgba(0,0,0,0.06);
+}
+
+.bubble.dark .md-thead {
+  background: rgba(255,255,255,0.06);
+}
+
+.md-th {
+  padding: 8px 12px;
+  font-weight: 700;
+  text-align: left;
+  border-bottom: 1.5px solid rgba(0,0,0,0.1);
+  white-space: nowrap;
+}
+
+.bubble.dark .md-th {
+  border-bottom-color: rgba(255,255,255,0.1);
+}
+
+.md-td {
+  padding: 7px 12px;
+  border-bottom: 1px solid rgba(0,0,0,0.06);
+  vertical-align: top;
+}
+
+.bubble.dark .md-td {
+  border-bottom-color: rgba(255,255,255,0.05);
+}
+
+.md-tr:last-child .md-td {
+  border-bottom: none;
+}
+
+.md-tr:nth-child(even) {
+  background: rgba(0,0,0,0.03);
+}
+
+.bubble.dark .md-tr:nth-child(even) {
+  background: rgba(255,255,255,0.03);
+}
+
+/* ─────────────────────────────────────────
+   INLINE BRANCH CHIP
+   Appears above a text selection inside a bubble.
+───────────────────────────────────────── */
+.branch-chip {
+  position: fixed;
+  transform: translate(-50%, calc(-100% - 8px));
+  padding: 6px 12px;
+  border-radius: 8px;
+  background: #1a1a2e;
+  color: #ffffff;
+  font-size: 12px;
+  font-weight: 600;
+  font-family: inherit;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
+  z-index: 2500;
+  white-space: nowrap;
+  letter-spacing: 0.2px;
+  animation: chip-in 0.12s ease-out;
+  pointer-events: auto;
+}
+
+.branch-chip:hover {
+  background: #2d2d4a;
+  transform: translate(-50%, calc(-100% - 10px));
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.3);
+}
+
+.branch-chip::after {
+  content: '';
+  position: absolute;
+  bottom: -5px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 10px;
+  height: 10px;
+  background: inherit;
+  transform: translateX(-50%) rotate(45deg);
+  border-radius: 2px;
+}
+
+.branch-chip.dark {
+  background: #e4e6eb;
+  color: #0b0d10;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.5);
+}
+
+.branch-chip.dark:hover {
+  background: #ffffff;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.6);
+}
+
+@keyframes chip-in {
+  from { opacity: 0; transform: translate(-50%, calc(-100% - 4px)); }
+  to   { opacity: 1; transform: translate(-50%, calc(-100% - 8px)); }
+}

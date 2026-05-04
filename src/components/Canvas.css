@@ -1,0 +1,140 @@
+.canvas {
+  flex: 1;
+  height: 100%;
+  position: relative;
+  overflow: auto;
+  transition: background 0.4s ease;
+}
+
+/* Remove old per-element backgrounds — grid now lives on canvas-inner */
+.canvas:not(.dark) { background: #eef0f6; }
+.canvas.dark       { background: #0b0d10; }
+
+.canvas * {
+  cursor: default;
+}
+
+.canvas-inner {
+  width: 5000px;
+  height: 5000px;
+  position: relative;
+  cursor: grab;
+  /* Light mode grid — scrolls with content */
+  background-color: #eef0f6;
+  background-image: radial-gradient(circle, #c7c9d9 1px, transparent 1px);
+  background-size: 28px 28px;
+}
+
+.canvas-inner.dark {
+  background-color: #0b0d10;
+  background-image: radial-gradient(circle, #262a31 1px, transparent 1px);
+  background-size: 28px 28px;
+}
+
+.canvas-inner:active {
+  cursor: grabbing;
+}
+
+.connections {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* ── Zoom controls ── */
+.zoom-controls {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.92);
+  padding: 8px 12px;
+  border-radius: 12px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+  z-index: 1000;
+  border: 1px solid rgba(0,0,0,0.06);
+  backdrop-filter: blur(8px);
+  transition: all 0.3s ease;
+}
+
+.canvas.dark .zoom-controls {
+  background: #181b20;
+  border: 1px solid #2a2f37;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.4);
+  color: #d4d7dd;
+}
+
+.zoom-controls button {
+  width: 28px;
+  height: 28px;
+  border: none;
+  background: #6366f1;
+  color: white;
+  border-radius: 7px;
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  font-family: inherit;
+}
+
+.zoom-controls button:hover {
+  background: #4f46e5;
+  transform: scale(1.1);
+}
+
+.canvas.dark .zoom-controls button {
+  background: #2a2f37;
+  border: 1px solid #363b44;
+  box-shadow: none;
+}
+
+.canvas.dark .zoom-controls button:hover {
+  background: #363b44;
+  box-shadow: none;
+  transform: scale(1.1);
+}
+
+.zoom-controls span {
+  min-width: 46px;
+  text-align: center;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+}
+
+
+/* ─────────────────────────────────────────
+   ARROW ANIMATIONS
+───────────────────────────────────────── */
+
+/* Merge arrow "flow" — dashes march from child → root, giving a sense of
+   content being pushed back. Runs continuously while the arrow is visible. */
+.connections .merge-arrow-path {
+  animation: merge-dash-flow 1.2s linear infinite;
+}
+
+@keyframes merge-dash-flow {
+  from { stroke-dashoffset: 26; }   /* 8 + 5 + 8 + 5 = 26, one full cycle */
+  to   { stroke-dashoffset: 0; }
+}
+
+/* Lineage arrow draw-in — plays once when a new branch arrow mounts. */
+.connections .lineage-arrow-path {
+  stroke-dasharray: 1200;
+  stroke-dashoffset: 1200;
+  animation: lineage-draw 0.45s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+@keyframes lineage-draw {
+  to { stroke-dashoffset: 0; }
+}

@@ -1,0 +1,232 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background: #f0f2f5;
+  min-height: 100vh;
+  overflow: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+.app {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  transition: background 0.4s ease;
+}
+
+.app-body {
+  flex: 1;
+  display: flex;
+  overflow: hidden;
+}
+
+/* ─────────────────────────────────────────
+   HEADER — light
+───────────────────────────────────────── */
+.header {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 28px;
+  background: rgba(255, 255, 255, 0.96);
+  border-bottom: 1px solid #e2e5ea;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  z-index: 100;
+  height: 64px;
+  transition: background 0.4s ease, border-color 0.4s ease;
+}
+
+.left-controls {
+  display: flex;
+  align-items: center;
+  z-index: 1;
+}
+
+.right-controls {
+  display: flex;
+  align-items: center;
+  z-index: 1;
+}
+
+.header h1 {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  color: #1a1a2e;
+  font-size: 1.25rem;
+  font-weight: 700;
+  letter-spacing: -0.3px;
+  margin: 0;
+  text-align: center;
+  white-space: nowrap;
+  transition: color 0.4s ease, text-shadow 0.4s ease;
+  pointer-events: none;
+}
+
+.model-select {
+  padding: 7px 12px;
+  border: 1.5px solid #d0d5dd;
+  border-radius: 10px;
+  background: white;
+  font-size: 13px;
+  font-family: inherit;
+  color: #1a1a2e;
+  cursor: pointer;
+  min-width: 190px;
+  transition: all 0.2s;
+  outline: none;
+}
+
+.model-select:focus {
+  border-color: #6366f1;
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
+}
+
+/* ─────────────────────────────────────────
+   HEADER — dark (professional slate theme)
+───────────────────────────────────────── */
+.app.dark {
+  background: #0b0d10;
+  color: #e4e6eb;
+}
+
+.app.dark .header {
+  background: #111418;
+  border-bottom: 1px solid #23272e;
+  box-shadow: none;
+}
+
+.app.dark .header h1 {
+  color: #e4e6eb;
+  background: none;
+  -webkit-text-fill-color: currentColor;
+  filter: none;
+  letter-spacing: -0.3px;
+}
+
+.app.dark .model-select {
+  background: #181b20;
+  border-color: #2a2f37;
+  color: #d4d7dd;
+  box-shadow: none;
+}
+
+.app.dark .model-select:focus {
+  border-color: #6366f1;
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+}
+
+.app.dark .model-select option,
+.app.dark .model-select optgroup {
+  background: #181b20;
+  color: #d4d7dd;
+}
+
+/* ─────────────────────────────────────────
+   TOGGLE
+───────────────────────────────────────── */
+.dark-toggle {
+  position: relative;
+  width: 56px;
+  height: 28px;
+  background: #e2e5ea;
+  border: none;
+  border-radius: 14px;
+  cursor: pointer;
+  transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  outline: none;
+  flex-shrink: 0;
+}
+
+.dark-toggle::after {
+  content: '';
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 22px;
+  height: 22px;
+  background: white;
+  border-radius: 50%;
+  transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1), background 0.35s ease;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+}
+
+.dark-toggle .toggle-icon {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 13px;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+  line-height: 1;
+}
+
+.dark-toggle .icon-sun  { right: 6px; opacity: 1; }
+.dark-toggle .icon-moon { left: 6px;  opacity: 0; }
+
+.app.dark .dark-toggle {
+  background: #2a2f37;
+  box-shadow: none;
+}
+
+.app.dark .dark-toggle::after {
+  transform: translateX(28px);
+  background: #e4e6eb;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.4);
+}
+
+.app.dark .dark-toggle .icon-sun  { opacity: 0; }
+.app.dark .dark-toggle .icon-moon { opacity: 1; }
+
+
+/* ─────────────────────────────────────────
+   SETTINGS GEAR (circular icon button)
+───────────────────────────────────────── */
+.settings-gear {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 1.5px solid #d0d5dd;
+  background: white;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  line-height: 1;
+  padding: 0;
+  margin-right: 10px;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+}
+
+.settings-gear:hover {
+  border-color: #6366f1;
+  background: #f5f6fd;
+  transform: rotate(45deg);
+}
+
+.settings-gear:active {
+  transform: rotate(90deg) scale(0.95);
+}
+
+.app.dark .settings-gear {
+  background: #181b20;
+  border-color: #2a2f37;
+}
+
+.app.dark .settings-gear:hover {
+  background: #22262e;
+  border-color: #6366f1;
+}

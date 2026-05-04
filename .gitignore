@@ -1,0 +1,10 @@
+node_modules
+dist
+.env
+
+# macOS
+.DS_Store
+
+# Local-only: deployment scripts and Kiro specs
+deploy/
+.kiro/
