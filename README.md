@@ -3,21 +3,8 @@
 A spatial chat interface for exploring ideas with LLMs. Highlight any text in a response, branch into a new conversation thread, and watch your thinking unfold on an infinite canvas.
 
 <p align="center">
-  <a href="https://github.com/dimwael/GenUI-platform/raw/main/docs/demo.mp4">
-    ▶ Watch the demo (MP4)
-  </a>
+  <img src="docs/demo.gif" alt="Demo: branching conversations on an infinite canvas" width="800" />
 </p>
-
-<!--
-To get an inline-playable video in this README:
-  1. Open any issue or PR on this repo
-  2. Drag docs/demo.mp4 into the comment box
-  3. GitHub uploads it and gives you a URL like
-     https://user-images.githubusercontent.com/.../demo.mp4
-  4. Replace the link block above with:
-       https://user-images.githubusercontent.com/.../demo.mp4
-     (just the raw URL on its own line — GitHub auto-embeds it as a player)
--->
 
 ## Why this exists
 
